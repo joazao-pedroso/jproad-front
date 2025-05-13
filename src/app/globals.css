@@ -4,7 +4,21 @@
   --background: #ffffff;
   --foreground: #171717;
 }
+    #mynetwork {
+      width: 100%;
+      height: 600px;
+      border: 1px solid lightgray;
+    }
 
+    body {
+      background-color: #f8f9fa;
+      margin: 20px;
+    }
+
+    h2 {
+      font-weight: 600;
+      color: #333;
+    }
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

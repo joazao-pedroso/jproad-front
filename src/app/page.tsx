@@ -78,14 +78,17 @@ useEffect(() => {
     const network = new Network(networkRef.current, { nodes, edges }, options);
     networkInstance.current = network;
 
-    network.on("doubleClick", function (params) {
-      if (params.nodes.length > 0) {
-        const nodeId = params.nodes[0];
-        const node = nodes.get(nodeId);
-        handleGetJSON(`${tema} > ${node.label}`);
-        setTema(`${tema} > ${node.label}`);
-      }
-    });
+network.on("doubleClick", function (params) {
+  if (params.nodes.length > 0) {
+    const nodeId = params.nodes[0];
+    const node = nodes.get(nodeId);
+
+    if (node && "label" in node) {  // garante que node existe e tem label
+      handleGetJSON(`${tema} > ${node.label}`);
+      setTema(`${tema} > ${node.label}`);
+    }
+  }
+});
   }
 }, [data, tema]);
 

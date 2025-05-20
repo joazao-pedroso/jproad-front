@@ -31,7 +31,14 @@ export default function Home() {
 useEffect(() => {
   if (networkRef.current && data.nodes.length && data.edges.length) {
     const nodes = new DataSet(data.nodes);
-    const edges = new DataSet(data.edges);
+
+    // Cria cópia das edges adicionando id único (exemplo: index)
+    const edgesWithId = data.edges.map((edge, index) => ({
+      id: index,  // id único (pode ser index)
+      from: edge.from,
+      to: edge.to,
+    }));
+    const edges = new DataSet(edgesWithId);
 
     const options = {
       layout: {
@@ -71,17 +78,17 @@ useEffect(() => {
     const network = new Network(networkRef.current, { nodes, edges }, options);
     networkInstance.current = network;
 
-    // Adiciona o event listener
-      network.on("doubleClick", function (params) {
-        if (params.nodes.length > 0) {
-          const nodeId = params.nodes[0];
-          const node = nodes.get(nodeId);
-          handleGetJSON(`${tema} > ${node.label}`);
-          setTema(`${tema} > ${node.label}`);
-        }
-      });
+    network.on("doubleClick", function (params) {
+      if (params.nodes.length > 0) {
+        const nodeId = params.nodes[0];
+        const node = nodes.get(nodeId);
+        handleGetJSON(`${tema} > ${node.label}`);
+        setTema(`${tema} > ${node.label}`);
+      }
+    });
   }
 }, [data, tema]);
+
 
 
 const handleGetJSON = async (newTema: string) => {
